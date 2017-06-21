@@ -3,6 +3,13 @@
   "theme": {
     "@primary-color": "#D66144"
   },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8001/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api" : "" }
+    }
+  },
   "env": {
     "development": {
       "extraBabelPlugins": [
