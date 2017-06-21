@@ -2,12 +2,19 @@
   "name": "dva-playground",
   "version": "0.0.1",
   "private": true,
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  },
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint",
     "test": "jest",
+    "test:coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch"
   },
   "engines": {
