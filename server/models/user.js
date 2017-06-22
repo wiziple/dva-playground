@@ -20,7 +20,7 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
   const user = this;
 
   // generate a salt
@@ -40,7 +40,7 @@ userSchema.pre('save', (next) => {
   });
 });
 
-userSchema.methods.comparePassword = (candidatePassword, callback) => {
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);

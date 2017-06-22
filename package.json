@@ -1,5 +1,5 @@
 {
-  "name": "dva-playground",
+  "name": "dva-antd-fullstack",
   "version": "0.0.1",
   "private": true,
   "jest": {
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "antd": "^2.11.1",
+    "axios": "^0.16.2",
     "babel-plugin-import": "^1.2.1",
     "babel-runtime": "^6.9.2",
     "bcrypt-nodejs": "0.0.3",
@@ -39,7 +40,8 @@
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "redux-actions": "^2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

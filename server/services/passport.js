@@ -47,7 +47,6 @@ const jwtLogin = new JWTStrategy(jwtOptions, (payload, done) => {
   // See if the user ID in the payload exists in our database
   // If it does, call 'done' with that other
   // otherwise, call done without a user object
-
   User.findById(payload.sub, (err, user) => {
     if (err) {
       return done(err, false);

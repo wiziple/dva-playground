@@ -1,4 +1,7 @@
 {
+  "env": {
+      "browser": true
+  },
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
@@ -22,7 +25,8 @@
     "no-bitwise": [0],
     "no-cond-assign": [0],
     "import/no-unresolved": [0],
-    "require-yield": [1]
+    "require-yield": [1],
+    "no-underscore-dangle": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {
