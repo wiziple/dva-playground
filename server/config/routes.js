@@ -6,7 +6,7 @@ require('../services/passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 
-module.exports = (app) => {
+export default function (app) {
   app.get('/', (req, res) => {
     res.send({ message: 'this is non-secret.' });
   });
@@ -15,4 +15,4 @@ module.exports = (app) => {
   });
   app.post('/signup', user.signup);
   app.post('/signin', requireSignin, user.signin);
-};
+}

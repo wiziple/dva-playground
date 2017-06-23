@@ -1,11 +1,11 @@
 'use strict';
 
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const cors = require('cors');
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import cors from 'cors';
 
-module.exports = (app) => {
+export default function (app) {
   app.use(morgan('combined'));
   app.use(cors());
   app.use(bodyParser.json({ type: '*/*' }));
-};
+}

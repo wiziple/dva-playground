@@ -1,4 +1,5 @@
 import * as apiService from '../services/api';
+import * as actions from '../actions';
 
 export default {
   namespace: 'auth',
@@ -26,10 +27,10 @@ export default {
   },
 
   effects: {
-    *signin({ payload }, { call, put }) { // eslint-disable-line
+    *signin({ payload }, { call, put }) {
       const { email, password, remember } = payload;
       try {
-        const { data } = yield apiService.signin(email, password);
+        const { data } = yield call(apiService.signin, email, password);
 
         if (remember) {
           localStorage.setItem('token', data.token);
@@ -37,16 +38,17 @@ export default {
           localStorage.removeItem('token');
           sessionStorage.setItem('token', data.token);
         }
+
+        yield put({ type: 'auth/signinSuccess' });
         yield put({ type: 'ui/visibleSignIn', payload: false });
-        yield put({ type: 'signinSuccess' });
       } catch ({ response }) {
         yield put({ type: 'signinError', payload: response.data });
       }
     },
-    *signup({ payload }, { call, put }) { // eslint-disable-line
+    *signup({ payload }, { call, put }) {
       const { email, password, name } = payload;
       try {
-        const { data } = yield apiService.signup(email, password, name);
+        const { data } = yield call(apiService.signup, email, password, name);
         sessionStorage.setItem('token', data.token);
 
         yield put({ type: 'ui/visibleSignUp', payload: false });
