@@ -4,21 +4,24 @@ export default {
   namespace: 'auth',
   state: {
     signedIn: false,
-    error: '',
+    signinError: '',
   },
 
   reducers: {
     signin(state) {
-      return { ...state, error: '', signedIn: false };
+      return { ...state, signinError: '', signupError: '', signedIn: false };
     },
     signinSuccess(state) {
-      return { ...state, error: '', signedIn: true };
+      return { ...state, signinError: '', signupError: '', signedIn: true };
     },
     signoutSuccess(state) {
-      return { ...state, error: '', signedIn: false };
+      return { ...state, signinError: '', signupError: '', signedIn: false };
     },
     signinError(state, { payload }) {
-      return { ...state, error: payload };
+      return { ...state, signinError: payload, signupError: '' };
+    },
+    signupError(state, { payload }) {
+      return { ...state, signinError: '', signupError: payload };
     },
   },
 
@@ -34,10 +37,22 @@ export default {
           localStorage.removeItem('token');
           sessionStorage.setItem('token', data.token);
         }
-        yield put({ type: 'ui/visibleSignin', payload: false });
+        yield put({ type: 'ui/visibleSignIn', payload: false });
         yield put({ type: 'signinSuccess' });
       } catch ({ response }) {
         yield put({ type: 'signinError', payload: response.data });
+      }
+    },
+    *signup({ payload }, { call, put }) { // eslint-disable-line
+      const { email, password, name } = payload;
+      try {
+        const { data } = yield apiService.signup(email, password, name);
+        sessionStorage.setItem('token', data.token);
+
+        yield put({ type: 'ui/visibleSignUp', payload: false });
+        yield put({ type: 'signinSuccess' });
+      } catch ({ response }) {
+        yield put({ type: 'signupError', payload: response.data });
       }
     },
     *signout({ payload }, { put }) {

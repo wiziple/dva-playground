@@ -1,5 +1,5 @@
 const config = {
-  mongodb: 'mongodb://localhost:auth/auth',
+  mongodb: 'mongodb://localhost:27017/dva-playground',
   secret: 'thisissecretkey',
 };
 

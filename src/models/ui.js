@@ -1,12 +1,16 @@
 export default {
   namespace: 'ui',
   state: {
-    visibleSignin: false,
+    visibleSignIn: false,
+    visibleSignUp: false,
   },
 
   reducers: {
-    visibleSignin(state, action) {
-      return { ...state, visibleSignin: action.payload };
+    visibleSignIn(state, action) {
+      return { ...state, visibleSignIn: action.payload };
+    },
+    visibleSignUp(state, action) {
+      return { ...state, visibleSignUp: action.payload };
     },
   },
 

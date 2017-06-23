@@ -1,7 +1,8 @@
 import { createAction } from 'redux-actions';
 
-export const authSignin = createAction('auth/signin');
-export const authSignup = createAction('auth/signup');
-export const authSignout = createAction('auth/signout');
+export const authSignIn = createAction('auth/signin');
+export const authSignUp = createAction('auth/signup');
+export const authSignOut = createAction('auth/signout');
 
-export const uiVisibleSignin = createAction('ui/visibleSignin');
+export const uiVisibleSignIn = createAction('ui/visibleSignIn');
+export const uiVisibleSignUp = createAction('ui/visibleSignUp');

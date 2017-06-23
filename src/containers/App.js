@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
 import Layout from '../components/Layout';
-import SigninModal from '../components/SigninModal';
+import SignInModal from '../components/SignInModal';
+import SignUpModal from '../components/SignUpModal';
 
 import * as _actions from '../actions';
 
@@ -19,23 +20,27 @@ class App extends Component {
 
   handleClickMenu = (menu) => {
     if (menu.key === '/signin') {
-      this.props.actions.uiVisibleSignin(true);
+      this.props.actions.uiVisibleSignIn(true);
+    }
+
+    if (menu.key === '/signup') {
+      this.props.actions.uiVisibleSignUp(true);
     }
 
     if (menu.key === '/signout') {
-      this.props.actions.authSignout();
+      this.props.actions.authSignOut();
     }
   };
 
-  handleCancelSigninModal = () => {
-    const form = this.form;
+  handleCancelSignInModal = () => {
+    const form = this.signInForm;
     form.resetFields();
-    this.props.actions.uiVisibleSignin(false);
+    this.props.actions.uiVisibleSignIn(false);
   }
 
-  handleSubmitSigninModal = (e) => {
+  handleSubmitSignInModal = (e) => {
     e.preventDefault();
-    const form = this.form;
+    const form = this.signInForm;
 
     form.validateFields((err, values) => {
       if (err) {
@@ -43,16 +48,45 @@ class App extends Component {
       }
 
       form.resetFields();
-      this.props.actions.authSignin(values);
+      this.props.actions.authSignIn(values);
     });
   }
 
-  saveFormRef = (form) => {
-    this.form = form;
+  handleRegisterSignInModal = () => {
+    this.props.actions.uiVisibleSignIn(false);
+    this.props.actions.uiVisibleSignUp(true);
+  }
+
+  saveSignInFormRef = (form) => {
+    this.signInForm = form;
+  }
+
+  handleCancelSignUpModal = () => {
+    const form = this.signUpForm;
+    this.props.actions.uiVisibleSignUp(false);
+    form.resetFields();
+  }
+
+  handleSubmitSignUpModal = (e) => {
+    e.preventDefault();
+    const form = this.signUpForm;
+
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      this.props.actions.authSignUp(values);
+      form.resetFields();
+    });
+  }
+
+  saveSignUpFormRef = (form) => {
+    this.signUpForm = form;
   }
 
   render() {
-    const { actions, visibleSignin, signInError } = this.props;
+    const { actions, visibleSignIn, visibleSignUp, signinError, signupError } = this.props;
 
     const layoutProps = {
       actions,
@@ -61,17 +95,27 @@ class App extends Component {
       handleClickMenu: this.handleClickMenu,
     };
 
-    const signinModalProps = {
-      visibleSignin,
-      handleCancelSigninModal: this.handleCancelSigninModal,
-      handleSubmitSigninModal: this.handleSubmitSigninModal,
-      ref: this.saveFormRef,
-      error: signInError,
+    const signInModalProps = {
+      visible: visibleSignIn,
+      handleRegister: this.handleRegisterSignInModal,
+      handleCancel: this.handleCancelSignInModal,
+      handleSubmit: this.handleSubmitSignInModal,
+      ref: this.saveSignInFormRef,
+      error: signinError,
+    };
+
+    const signUpModalProps = {
+      visible: visibleSignUp,
+      handleCancel: this.handleCancelSignUpModal,
+      handleSubmit: this.handleSubmitSignUpModal,
+      ref: this.saveSignUpFormRef,
+      error: signupError,
     };
 
     return (
       <Layout {...layoutProps}>
-        <SigninModal {...signinModalProps} />
+        <SignInModal {...signInModalProps} />
+        <SignUpModal {...signUpModalProps} />
         { this.props.children }
       </Layout>
     );
@@ -80,8 +124,10 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    signInError: state.auth.error,
-    visibleSignin: state.ui.visibleSignin,
+    signinError: state.auth.signinError,
+    signupError: state.auth.signupError,
+    visibleSignIn: state.ui.visibleSignIn,
+    visibleSignUp: state.ui.visibleSignUp,
   };
 }
 

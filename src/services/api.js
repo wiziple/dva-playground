@@ -8,3 +8,11 @@ export function signin(email, password) {
     password,
   });
 }
+
+export function signup(email, password, name) {
+  return axios.post('api/signup', {
+    email,
+    password,
+    name,
+  });
+}
